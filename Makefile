@@ -13,8 +13,8 @@ all: build test
 build: $(TARGETS)
 test: $(OUTPUTS) $(DIFFS_DEFAULT) $(DIFFS_SIDE_BY_SIDE)
 
-parser: y.tab.o proj2.o table.o
-	$(CC) -g -o parser y.tab.o proj2.o table.o -ll -lstdc++
+parser: y.tab.o proj2.o table.o driver.o
+	$(CC) -g -o parser y.tab.o proj2.o table.o driver.o -ll -lstdc++
 
 y.tab.c: lex.yy.c proj2.h
 y.tab.c: grammar.y
