@@ -1,4 +1,9 @@
 %{
+/** Code by @author Wonsun Ahn, Fall 2024
+ * 
+ * The parser implementation file.
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "proj2.h"
@@ -44,21 +49,10 @@ Program          :      PROGRAMnum IDnum SEMInum
 
 int yycolumn = 1, yyline = 1;
 
-FILE *treelst;
-
-/* Test driver main function for the parser. */
-int main()
-{
-  treelst = stdout;
-  yyparse();
-  printtree(SyntaxTree, 0);
-  return 0;
-}
-
 void yyerror(char *str)
 {
   printf("yyerror: %s at line %d\n", str, yyline);
-  exit(1);
+  exit(0);
 }
 
 #include "lex.yy.c"

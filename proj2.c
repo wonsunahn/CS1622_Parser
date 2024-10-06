@@ -265,7 +265,7 @@ void SetRightChild(tree T, tree NewC)
 	(could be 0 if you do not want the root to be indent)
  ****************************************************************/
 
-extern FILE *treelst;
+FILE *treelst;
 
 char *opnodenames[] =
 	{
