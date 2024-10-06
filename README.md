@@ -188,7 +188,89 @@ the additional things needed.
 strings from the string table that corresponds to identifier and string
 constant integer lexemes.
 
-### Debugging
+### Completing grammar.y
+
+If you have completed both lex.l and table.cpp and you are this stage, please
+try doing "make" again to regenerate the parser output files.  Then open
+"outputs/err0.out".  If all went well, you should see the following content:
+
+```
+************* SYNTAX TREE PRINTOUT ***********
+
+  +-[IDNode,0,"err0"]
+R-[ProgramOp]
+  +-[DUMMYnode]
+```
+
+## Appendix
+
+### Appendix A: Helper functions in proj2.c
+
+* tree NullExp();
+
+  Returns a null node with kind=DummyNode and semantic value=0.
+
+* tree MakeLeaf(int Kind, int N);
+
+  Returns a leaf node of specified Kind with integer semantic value N.
+
+* tree MakeTree(int NodeOp, tree Left, tree Right);
+
+  Returns an internal node, T, such that NodeOp(T)=Op; LeftChild(T)=Left; RightChild(T)=Right and NodeKind(T)=InteriorNode.
+
+* int NodeOp(tree T);
+
+  See MakeTree. Returns the integer constant representing NodeOpType of T if T is an interior node, else returns 0 (undefined op).  Uses NodeKind(T) to distinguish leaf from interior.
+
+* int NodeKind(tree T);
+
+  Returns the kind of node T.
+
+* tree LeftChild(tree T);
+
+  Returns pointer to left child of T. Returns pointer to null node if NodeKind(T) != InteriorNode.
+
+* tree RightChild(tree T);
+
+  Returns pointer to right child of T. Returns pointer to null node if NodeKind(T) != InteriorNode.
+
+* int IntVal(tree T);
+
+  See MakeLeaf. Returns integer semantic value of node T if NodeKind(T) == IDNode, STRGNode, NUMNode, or BOOLNode. Otherwise returns -1 (undefined).
+
+* int IsNull(tree T); 
+
+  IsNull(T) iff T is null node.
+
+* void SetNodeOp(tree T, int Op)
+
+  NodeKind(T) must be InteriorNode. Makes NodeOp(T) = Op.
+
+* void SetNodeKind(tree T, int Kind)
+
+  NodeKind(T) must not be InteriorNode. Makes NodeKind(T) = Kind.
+
+* void SetNodeVal(tree T, int Val)
+
+  NodeKind(T) must not be InteriorNode. Makes IntVal(T) = Val.
+
+* void SetLeftChild(tree T, tree NewChild)
+
+  NodeKind(T) must be InteriorNode. Makes LeftChild(T) = NewChild.
+
+* void SetRightChild(tree T, tree NewChild)
+
+  NodeKind(T) must be InteriorNode. Makes RightChild(T) = NewChild.
+
+### Appendix B: MINI-JAVA grammar specification
+
+<object data="proj2.appendixB.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="proj2.appendixB.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="proj2.appendixB.pdf">Download PDF</a>.</p>
+    </embed>
+</object>
+
+## Debugging
 
 You can click on the Debugger menu on the VSCode IDE to get to the RUN AND
 DEBUG pane.  There you will see a play icon next to a drop box with <tt>Launch parser</tt>
