@@ -264,11 +264,10 @@ R-[ProgramOp]
 
 ### Appendix B: MINI-JAVA grammar specification
 
-<object data="proj2.appendixB.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="proj2.appendixB.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="proj2.appendixB.pdf">Download PDF</a>.</p>
-    </embed>
-</object>
+You can download the below grammar in [PDF format](imgs/"proj2.appendixB.pdf), if you prefer.
+
+![Grammar Page 1](imgs/proj2.appendixB_Page_1.png "Grammar Page 1")
+
 
 ## Debugging
 
