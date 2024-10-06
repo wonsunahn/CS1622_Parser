@@ -1,12 +1,15 @@
-- [Project 1: Lexical Analysis](#project-1--lexical-analysis)
+- [Project 2: Syntax Analysis](#project-2-syntax-analysis)
   * [Description](#description)
   * [Codespace Development Environment](#codespace-development-environment)
   * [Directory Structure and Makefile Script](#directory-structure-and-makefile-script)
   * [Implementation](#implementation)
-    + [Token Definitions in MINI-JAVA](#token-definitions-in-mini-java)
     + [Completing lex.l](#completing-lexl)
     + [Completing table.cpp](#completing-tablecpp)
-    + [Debugging](#debugging)
+    + [Completing grammar.y](#completing-grammary)
+  * [Appendix](#appendix)
+    + [Appendix A: Helper functions in proj2.c](#appendix-a-helper-functions-in-proj2c)
+    + [Appendix B: MINI-JAVA grammar specification](#appendix-b-mini-java-grammar-specification)
+  * [Debugging](#debugging)
   * [Grading](#grading)
   * [Submission](#submission)
 
@@ -42,7 +45,7 @@ the build target of the Makefile script on the terminal:
 make build
 ```
 
-This should result in the following output:
+This results in the following output:
 
 ```
 $ make build
@@ -54,6 +57,10 @@ g++ -g -c table.cpp
 gcc -g -c driver.c
 gcc -g -o parser y.tab.o proj2.o table.o driver.o -ll -lstdc++
 ```
+
+This is a flowchart representation of the build process of the parser:
+
+![Yacc flowchart](imgs/yacc.png "Yacc flowchart")
 
 After creating the parser binary, you are able to use the Debugger menu to step
 through the code, put breakpoints, just like for Project 1.  Refer to the
@@ -202,6 +209,25 @@ R-[ProgramOp]
   +-[DUMMYnode]
 ```
 
+This is a representation of a parse tree for the Program "tests/err0.mjava"
+with a ProgramOp type root node with an IDNode right child and a DUMMYnode left
+child.  The IDNode, which is a leaf node for an identifier, displays 0 as the
+lexeme value of the identifier token, and the string "err0" at index 0 of the
+string table.  This reflects the parse tree structure of Program shown in
+[Appendix B: MINI-JAVA grammar
+specification](#appendix-b-mini-java-grammar-specification).
+
+Now, the solution output in "outputs_solution/err0.out" shows:
+
+```
+yyerror: syntax error at line 3
+```
+
+And this is because the specification for Program requires one or more Classes
+to be declared in the file, and there are none in err0.mjava.  Line 3 is the
+last line in the err0.mjava file, so that is where the parser emits the error
+message while looking for a Class declaration.
+
 ## Appendix
 
 ### Appendix A: Helper functions in proj2.c
@@ -264,7 +290,7 @@ R-[ProgramOp]
 
 ### Appendix B: MINI-JAVA grammar specification
 
-You can download the below grammar in [PDF format](imgs/"proj2.appendixB.pdf), if you prefer.
+You can download the below grammar in [PDF format](proj2.appendixB.pdf), if you prefer.
 
 ![Grammar Page 1](imgs/proj2.appendixB_Page_1.png "Grammar Page 1")
 ![Grammar Page 2](imgs/proj2.appendixB_Page_2.png "Grammar Page 2")
