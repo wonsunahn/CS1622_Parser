@@ -1,6 +1,6 @@
 ************* SYNTAX TREE PRINTOUT ***********
 
-  +-[IDNode,0,"ex1"]
+  +-[IDNode,0,"ex0"]
 R-[ProgramOp]
   |   +-[IDNode,4,"c1"]
   | +-[ClassDefOp]
