@@ -1,7 +1,9 @@
 %{
-#include  <stdio.h>
-#include  "proj2.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include "proj2.h"
 
+extern int yylex();
 static void yyerror(char *str);
 
 tree SyntaxTree;
@@ -23,24 +25,24 @@ tree SyntaxTree;
 %token <intg>  NOTnum ICONSTnum SCONSTnum
 
 /* Non-terminal (tree node) declarations */
-%type  <tptr>  Program ClassDecl_rec ClassDecl ClassBody MethodDecl_z1 MethodDecl_rec Decls
-%type  <tptr>  FieldDecl_rec FieldDecl Tail FieldDecl_body VariableDeclId Bracket_rec1 Bracket_rec2
-%type  <tptr>  VariableInitializer ArrayInitializer ArrayInitializer_body  ArrayCreationExpression
-%type  <tptr>  ArrayCreationExpression_tail MethodDecl FormalParameterList_z1 FormalParameterList
-%type  <tptr>  FormalParameterList_rec IDENTIFIER_rec Block Type Type_front 
-%type  <tptr>  StatementList Statement_rec Statement AssignmentStatement MethodCallStatement
-%type  <tptr>  MethodCallStatement_tail Expression_rec ReturnStatement IfStatement If_rec WhileStatement
-%type  <tptr>  Expression Comp_op SimpleExpression Term Factor Expression_rec2
-%type  <tptr>  UnsignedConstant Variable Variable_tail Variable_rec Variable_1 
+%type  <tptr>  Program
 
+/* TODO: Add more non-terminal definitons as needed. */
 
 %%
+
+/* TODO: Fix this production rule so that it matches language specification. */
+Program          :      PROGRAMnum IDnum SEMInum
+                        { 
+                          $$ = MakeTree(ProgramOp, NullExp(), MakeLeaf(IDNode, $2));
+                          SyntaxTree = $$;
+                        }
 
 /* TODO: Add grammar rules and semantic actions for each non-terminal. */
 
 %%
 
-int yycolumn, yyline;
+int yycolumn = 1, yyline = 1;
 
 FILE *treelst;
 
@@ -56,6 +58,7 @@ int main()
 void yyerror(char *str)
 {
   printf("yyerror: %s at line %d\n", str, yyline);
+  exit(1);
 }
 
 #include "lex.yy.c"

@@ -58,6 +58,7 @@ extern "C" void addStringTable(char *text, int tokenType)
 extern "C" char* getString(int index)
 {
    /* TODO: Implement function as described in above comment. */
+   return NULL;
 }
 
 /** Returns the index of the given string in the string table.
@@ -72,4 +73,5 @@ extern "C" char* getString(int index)
 extern "C" int getIndex(char* string)
 {
    /* TODO: Implement function as described in above comment. */
+   return -1;
 }
