@@ -267,7 +267,10 @@ R-[ProgramOp]
 You can download the below grammar in [PDF format](imgs/"proj2.appendixB.pdf), if you prefer.
 
 ![Grammar Page 1](imgs/proj2.appendixB_Page_1.png "Grammar Page 1")
-
+![Grammar Page 2](imgs/proj2.appendixB_Page_2.png "Grammar Page 2")
+![Grammar Page 3](imgs/proj2.appendixB_Page_3.png "Grammar Page 3")
+![Grammar Page 4](imgs/proj2.appendixB_Page_4.png "Grammar Page 4")
+![Grammar Page 5](imgs/proj2.appendixB_Page_5.png "Grammar Page 5")
 
 ## Debugging
 
