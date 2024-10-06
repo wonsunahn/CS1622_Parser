@@ -60,18 +60,3 @@ extern "C" char* getString(int index)
    /* TODO: Implement function as described in above comment. */
    return NULL;
 }
-
-/** Returns the index of the given string in the string table.
- *  
- * If string is not found in the string table, returns -1.
- *
- * @param string - String to search for in the string table.
- * 
- * @return Index of the passed in string in the string table.
- */
-
-extern "C" int getIndex(char* string)
-{
-   /* TODO: Implement function as described in above comment. */
-   return -1;
-}
