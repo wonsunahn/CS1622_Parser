@@ -413,7 +413,7 @@ These functions are already fully implemented for your use.
 
 ### Appendix C: MINI-JAVA grammar specification
 
-You can download the below grammar in [PDF format](proj2.appendixB.pdf), if you prefer.
+You can download the below grammar in [PDF format](proj2.appendixC.pdf), if you prefer.
 
 ![Grammar Page 1](imgs/proj2.appendixB_Page_1.png "Grammar Page 1")
 ![Grammar Page 2](imgs/proj2.appendixB_Page_2.png "Grammar Page 2")
@@ -429,16 +429,16 @@ selected.  You can click on that play icon to start debugging.  The
 <tt>Launch parser</tt> selection is a launch configuration defined in the
 [.vscode/launch.json](.vscode/launch.json) file.  In that file, you will see
 that the <tt>args</tt> property is set with an input redirection to
-<tt>${workspaceFolder}/tests/helloworld.mjava</tt>.  If you wish to debug with some
-other input file, please change helloworld.mjava to some other .mjava file
+<tt>${workspaceFolder}/tests/src0.mjava</tt>.  If you wish to debug with some
+other input file, please change src0.mjava to some other .mjava file
 under the tests/ folder.
 
 If you are not familiar with VSCode debugging, here is a tutorial:
 https://code.visualstudio.com/docs/editor/debugging
 
-Note that you are not allowed to put breakpoints on lex.l, because it is not a
-C/C++ source file.  However, you can put breakpoints on lex.yy.c that is
-generated from lex.l.
+Note that you cannot put breakpoints on grammar.y on VSCode debugger, because
+it is not a C/C++ source file.  However, you can put breakpoints on y.tab.c
+that is generated from grammar.y.
 
 ## Grading
 
