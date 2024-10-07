@@ -7,8 +7,9 @@
     + [Completing table.cpp](#completing-tablecpp)
     + [Completing grammar.y](#completing-grammary)
   * [Appendix](#appendix)
-    + [Appendix A: Helper functions in proj2.c](#appendix-a-helper-functions-in-proj2c)
-    + [Appendix B: MINI-JAVA grammar specification](#appendix-b-mini-java-grammar-specification)
+    + [Appendix A: Data structures in proj2.h](#appendix-a-data-structures-in-proj2h)
+    + [Appendix B: Helper functions in proj2.c](#appendix-b-helper-functions-in-proj2c)
+    + [Appendix C: MINI-JAVA grammar specification](#appendix-c-mini-java-grammar-specification)
   * [Debugging](#debugging)
   * [Grading](#grading)
   * [Submission](#submission)
@@ -214,8 +215,8 @@ with a ProgramOp type root node with an IDNode right child and a DUMMYnode left
 child.  The IDNode, which is a leaf node for an identifier, displays 0 as the
 lexeme value of the identifier token, and the string "err0" at index 0 of the
 string table.  This reflects the parse tree structure of Program shown in
-[Appendix B: MINI-JAVA grammar
-specification](#appendix-b-mini-java-grammar-specification).
+[Appendix C: MINI-JAVA grammar
+specification](#appendix-c-mini-java-grammar-specification).
 
 Now, the solution output in "outputs_solution/err0.out" shows:
 
@@ -228,9 +229,131 @@ to be declared in the file, and there are none in err0.mjava.  Line 3 is the
 last line in the err0.mjava file, so that is where the parser emits the error
 message while looking for a Class declaration.
 
+Your job is to complete the grammar.y file so that the grammar adheres to the
+given specifications, while writing the semantic actions to build the parse
+tree.  When you are done, your grammar.y file should look something like the following:
+
+```
+%{ /* definition */
+#include <stdlib.h>
+#include <stdio.h>
+#include "proj2.h"
+...
+%}
+
+%union {
+  int intg;
+  tree tptr;
+}
+
+%token <intg> PROGRAMnum IDnum .... SCONSTnum
+%type <tptr> Program ClassDecl ..... Variable
+
+%% /* grammar specifications */
+
+Program : PROGRAMnum IDnum SEMInum ClassDecl
+{ $$ = MakeTree(ProgramOp, $4, MakeLeaf(IDNode, $2)); SyntaxTree = $$; }
+;
+/* other rules */
+Expression : SimpleExpression {$$ = $1;}
+| SimpleExpression Comp_op SimpleExpression
+{ MkLeftC($1, $2); $$ = MkRightC($3, $2); }
+;
+
+%% /* user code */
+
+int yycolumn = 1, yyline = 1;
+
+void yyerror(char *str)
+{
+  printf("yyerror: %s at line %d\n", str, yyline);
+  exit(0);
+}
+
+#include "lex.yy.c"
+```
+
 ## Appendix
 
-### Appendix A: Helper functions in proj2.c
+### Appendix A: Data structures in proj2.h
+
+In proj2.h is the declaration of the treenode struct:
+
+```
+typedef struct treenode {
+        int NodeKind, NodeOpType, IntVal;
+        struct treenode *LeftC, *RightC;
+} ILTree, *tree;
+```
+
+The NodeKind field distinguishes between the following types of nodes: IDNode,
+NUMNode, STRINGNode, DUMMYNode, INTEGERTNode or EXPRNode. The first four leaf
+node types correspond to an identifier, an integer constant, a string constant
+and a null node type. A leaf node of INTEGERTNode type is created for "int"
+type declarations, i.e. the node is created for every INTnum token. All
+interior nodes are of the EXPRNode type.
+
+Each leaf node assigns the IntVal field. For an ID or string constant node,
+IntVal is the index into the string table. For a NUMNode, it is the value
+itself. For an INTEGERTNode or DUMMYNode, it is always 0.
+
+Each interior node assign the NodeOpType field, the values of which are defined
+in proj2.h:
+
+* ProgramOp: node for program, root node
+* BodyOp: node for class body, method body, decl body, statmentlist body.
+* DeclOp: node for each declaration
+* CommaOp: node for "," operator
+* ArrayTypeOp: node for array type
+* TypeIdOp: node for type of a variable or method
+* BoundOp: node for array bound in variable declaration
+* HeadOp: node for head of method
+* RArgTypeOp: node for each argument
+* VargTypeOp: node for each argument specified by "VAL" .e.g. abc(VAL int x)
+* StmtOp: node for statement
+* IfElseOp: node for if-then-else
+* LoopOp: node for while statement
+* SpecOp: node for specification of parameters
+* RoutineCallOp: node for routine call
+* AssignOp: node for assign operator
+* ReturnOp: node for return statement
+* AddOp, SubOp, MultOp, DivOp, LTOp, GTOp, EQOp, NEOp, LEOp, GEOp, AndOp, OrOp, UnaryNegOp, NotOp: node for ALU operators
+* VarOp: node for variables
+* SelectOp: node for accessing an element/field variable
+* IndexOp: node created when using "[]" to access an element
+* FieldOp: node created when using "." to access a field
+* ClassOp: node for each class
+* MethodOp: node for each method
+* ClassDefOp: node for each class defintion
+
+Please refer to [Appendix C: MINI-JAVA grammar
+specification](#appendix-c-mini-java-grammar-specification) for details of how
+each node type is used in the parse tree.  You will be using functions MakeLeaf
+and MakeTree, described in the following section, to create leaf nodes and
+interior nodes respectively.
+
+The test driver main method inside driver.c is simply:
+
+```
+int main()
+{
+  treelst = stdout;
+  yyparse();
+  printtree(SyntaxTree, 0);
+  return 0;
+}
+```
+
+The treelst FILE pointer is what the parser uses for output.  Setting it to
+stdout simply redirects all output to the console.  The yyparse() call will
+initiate the parse process, culminating in the execution of the semantic action
+of the start symbol Program, if the parse is successful.  The semantic action
+for Program assigns the root of the parse tree to SyntaxTree, which is
+displayed to the console using the printtree call.
+
+### Appendix B: Helper functions in proj2.c
+
+These functions are already fully implemented for your use.
 
 * tree NullExp();
 
@@ -266,7 +389,7 @@ message while looking for a Class declaration.
 
 * int IsNull(tree T); 
 
-  IsNull(T) iff T is null node.
+  returns true iff T is a null node.
 
 * void SetNodeOp(tree T, int Op)
 
@@ -288,7 +411,7 @@ message while looking for a Class declaration.
 
   NodeKind(T) must be InteriorNode. Makes RightChild(T) = NewChild.
 
-### Appendix B: MINI-JAVA grammar specification
+### Appendix C: MINI-JAVA grammar specification
 
 You can download the below grammar in [PDF format](proj2.appendixB.pdf), if you prefer.
 
