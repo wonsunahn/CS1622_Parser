@@ -13,8 +13,15 @@ Aggelos Varvitsiotis.
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include <ctype.h>
+extern "C"
+{
 #include "proj2.h"
+}
+
+extern int yyline;
+extern char* getString(int index);
 
 ILTree dummy = {DUMMYNode, 0, 0, 0, 0};
 
@@ -25,7 +32,7 @@ ILTree dummy = {DUMMYNode, 0, 0, 0, 0};
  *	use it for the other purposes will cause        *
  *	trouble                                         *
  ********************************************************/
-tree NullExp()
+extern "C" tree NullExp()
 {
 	return (&dummy);
 }
@@ -34,13 +41,14 @@ tree NullExp()
  *	This function will create a leafnode with it	   *
  *	NodeKind and IntVal to be Kind and N, respectively *
  ***********************************************************/
-tree MakeLeaf(int Kind, int N)
+extern "C" tree MakeLeaf(int Kind, int N)
 {
 	tree p;
 
 	p = (tree)malloc(sizeof(ILTree));
 	p->NodeKind = Kind;
 	p->IntVal = N;
+	p->LineNo = yyline;
 	return (p);
 }
 
@@ -48,13 +56,14 @@ tree MakeLeaf(int Kind, int N)
  * 	This function create a interior node of NodeOptype *
  *	with children to be Left and Right, respectively,  *
  ***********************************************************/
-tree MakeTree(int NodeOp, tree Left, tree Right)
+extern "C" tree MakeTree(int NodeOp, tree Left, tree Right)
 {
 	tree p;
 
 	p = (tree)malloc(sizeof(ILTree));
 	p->NodeKind = EXPRNode;
 	p->NodeOpType = NodeOp;
+	p->LineNo = 0;
 	p->LeftC = Left;
 	p->RightC = Right;
 	return (p);
@@ -63,7 +72,7 @@ tree MakeTree(int NodeOp, tree Left, tree Right)
 /*********************************************************
  *	This function returns leftchild of the treenode  *
  *********************************************************/
-tree LeftChild(tree T)
+extern "C" tree LeftChild(tree T)
 {
 	if (NodeKind(T) != EXPRNode)
 		return (NullExp());
@@ -73,7 +82,7 @@ tree LeftChild(tree T)
 /*********************************************************
  *	This function returns rightchild of the treenode *
  *********************************************************/
-tree RightChild(tree T)
+extern "C" tree RightChild(tree T)
 {
 	if (NodeKind(T) != EXPRNode)
 		return (NullExp());
@@ -84,7 +93,7 @@ tree RightChild(tree T)
  *	This function makes subtree T1 to be the        *
  *	leftmost child of the tree T2, return T2	*
  ********************************************************/
-tree MkLeftC(tree T1, tree T2)
+extern "C" tree MkLeftC(tree T1, tree T2)
 {
 	tree p, q;
 
@@ -106,8 +115,7 @@ tree MkLeftC(tree T1, tree T2)
  *	This function makes subtree T1 to be the        *
  *	rightmost child of the tree T2, return T2	*
  ********************************************************/
-tree MkRightC(T1, T2)
-tree T1, T2;
+extern "C" tree MkRightC(tree T1, tree T2)
 {
 	tree p, q;
 
@@ -128,7 +136,7 @@ tree T1, T2;
 /********************************************************
  *	This function returns NodeOpType of a node	*
  ********************************************************/
-int NodeOp(tree T)
+extern "C" int NodeOp(tree T)
 {
 	if (NodeKind(T) != EXPRNode)
 	{
@@ -141,7 +149,7 @@ int NodeOp(tree T)
 /********************************************************
  *	This function returns NodeKind of a node 	*
  ********************************************************/
-int NodeKind(tree T)
+extern "C" int NodeKind(tree T)
 {
 	return (T->NodeKind);
 }
@@ -149,7 +157,7 @@ int NodeKind(tree T)
 /********************************************************
  *	This function returns IntVal of a leafnode	*
  ********************************************************/
-int IntVal(tree T)
+extern "C" int IntVal(tree T)
 {
 	if (NodeKind(T) == EXPRNode)
 	{
@@ -163,7 +171,7 @@ int IntVal(tree T)
  * 	This function return true if the node is 	*
  *	DUMMYNode, false otherwise.			*
  ********************************************************/
-int IsNull(tree T)
+extern "C" int IsNull(tree T)
 {
 	return (NodeKind(T) == DUMMYNode);
 }
@@ -172,7 +180,7 @@ int IsNull(tree T)
  *	This function sets the Target Node to be	*
  *	Source Node (only for Non Dummy Target Node)	*
  ********************************************************/
-void SetNode(tree Target, tree Source)
+extern "C" void SetNode(tree Target, tree Source)
 {
 	if ((Target->NodeKind = Source->NodeKind) != EXPRNode)
 	{
@@ -192,7 +200,7 @@ void SetNode(tree Target, tree Source)
  *	This function sets the NodeOpType  to be	*
  *	to be NewOp (only for Interior EXPRNode)	*
  ********************************************************/
-void SetNodeOp(tree T, int Op)
+extern "C" void SetNodeOp(tree T, int Op)
 {
 	if (NodeKind(T) != EXPRNode)
 		printf("SetNodeOp(): This node must be an EXPRNode!\n");
@@ -205,7 +213,7 @@ void SetNodeOp(tree T, int Op)
  *	left subtree root to be a NewOp node, used only *
  *	in construct a Record Component subtree.	*
  ********************************************************/
-void SetLeftTreeOp(tree T, int Op)
+extern "C" void SetLeftTreeOp(tree T, int Op)
 {
 	tree p;
 
@@ -223,7 +231,7 @@ void SetLeftTreeOp(tree T, int Op)
  *	only in construct a Procedure or function call	*
  *	subtree with arguments				*
  ********************************************************/
-void SetRightTreeOp(tree T, int Op)
+extern "C" void SetRightTreeOp(tree T, int Op)
 {
 	tree p;
 
@@ -238,7 +246,7 @@ void SetRightTreeOp(tree T, int Op)
 /****************************************************************
  * 	This function sets the LeftChild of T to be NewC	*
  ****************************************************************/
-void SetLeftChild(tree T, tree NewC)
+extern "C" void SetLeftChild(tree T, tree NewC)
 {
 	if (NodeKind(T) != EXPRNode)
 		printf("SetLeftChild(): This node must be an EXPRNode!\n");
@@ -249,7 +257,7 @@ void SetLeftChild(tree T, tree NewC)
 /****************************************************************
  * 	This function sets the RightChild of T to be NewC	*
  ****************************************************************/
-void SetRightChild(tree T, tree NewC)
+extern "C" void SetRightChild(tree T, tree NewC)
 {
 	if (NodeKind(T) != EXPRNode)
 		printf("SetRightChild(): This node must be an EXPRNode!\n");
@@ -267,7 +275,7 @@ void SetRightChild(tree T, tree NewC)
 
 FILE *treelst;
 
-char *opnodenames[] =
+const char *opnodenames[] =
 	{
 		"ProgramOp", "BodyOp", "DeclOp", "CommaOp", "ArrayTypeOp", "TypeIdOp",
 		"BoundOp", "RecompOp",
@@ -281,7 +289,7 @@ char *opnodenames[] =
 
 static int crosses[162];
 
-void indent(int x)
+static void indent(int x)
 {
 	int i;
 	for (i = 0; i < x; i++)
@@ -293,16 +301,20 @@ void indent(int x)
 		crosses[x] = (crosses[x] + 1) % 2;
 }
 
-void zerocrosses()
+static void zerocrosses()
 {
 	int i;
 	for (i = 0; i < 162; i++)
 		crosses[i] = 0;
 }
 
-extern char* getString(int index);
+extern "C" const char* getNodeOpString(tree nd)
+{
+	assert (NodeKind(nd) == EXPRNode);
+	return opnodenames[NodeOp(nd) - ProgramOp];
+}
 
-void printtree(tree nd, int depth)
+extern "C" void printtree(tree nd, int depth)
 {
 	int id, indx;
 
@@ -333,7 +345,7 @@ void printtree(tree nd, int depth)
 		else
 			fprintf(treelst, "[IDNode,%d,\"%s\"]\n", indx, "err");
 		break;
-
+		
 	case INTEGERTNode:
 		fprintf(treelst, "[INTEGERTNode]\n");
 		break;
@@ -357,8 +369,7 @@ void printtree(tree nd, int depth)
 		break;
 
 	case EXPRNode:
-		fprintf(treelst, "[%s]\n",
-				opnodenames[NodeOp(nd) - ProgramOp]);
+		fprintf(treelst, "[%s]\n", getNodeOpString(nd));
 		break;
 
 	default:
