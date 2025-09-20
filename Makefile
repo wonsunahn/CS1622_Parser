@@ -13,8 +13,8 @@ all: build test
 build: $(TARGETS)
 test: $(OUTPUTS) $(DIFFS_DEFAULT) $(DIFFS_SIDE_BY_SIDE)
 
-parser: y.tab.o proj2.o table.o driver.o
-	$(CC) -g -o parser y.tab.o proj2.o table.o driver.o -ll -lstdc++
+parser: y.tab.o proj2.o table.o main.o
+	$(CC) -g -o parser y.tab.o proj2.o table.o main.o -ll -lstdc++
 
 y.tab.c: lex.yy.c proj2.h
 y.tab.c: grammar.y
@@ -30,8 +30,8 @@ lex.yy.c: lex.l
 
 define test_rules
 outputs/$(1:tests/%.mjava=%).out: parser $(1)
-	@echo "cat $(1) | ./parser > $$@"
-	-@cat $(1) | ./parser > $$@
+	@echo "./parser $(1) > $$@"
+	-@./parser $(1) > $$@
 endef
 $(foreach test,$(TESTS),$(eval $(call test_rules,$(test))))
 
