@@ -48,7 +48,6 @@ extern "C" tree MakeLeaf(int Kind, int N)
 	p = (tree)malloc(sizeof(ILTree));
 	p->NodeKind = Kind;
 	p->IntVal = N;
-	p->LineNo = yyline;
 	return (p);
 }
 
@@ -63,7 +62,6 @@ extern "C" tree MakeTree(int NodeOp, tree Left, tree Right)
 	p = (tree)malloc(sizeof(ILTree));
 	p->NodeKind = EXPRNode;
 	p->NodeOpType = NodeOp;
-	p->LineNo = 0;
 	p->LeftC = Left;
 	p->RightC = Right;
 	return (p);
