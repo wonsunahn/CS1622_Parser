@@ -55,8 +55,23 @@ extern "C" void addStringTable(char *text, int tokenType)
  * @return Pointer to the string in the index.
  */
 
-extern "C" char* getString(int index)
+const char* getString(int index)
 {
    /* TODO: Implement function as described in above comment. */
    return NULL;
+}
+
+/** Returns the index of the provided string in the string table.
+ *  
+ * If string is not in the string table, returns -1.
+ *
+ * @param text - The string we are looking for in the string table.
+ * 
+ * @return The index of the string in the string table.
+ */
+
+int getIndex(const char* text)
+{
+   /* TODO: Needed for Project 3.  Not needed for Project 2. */
+   return -1;
 }
