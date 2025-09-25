@@ -91,7 +91,6 @@ int main(int argc, char **argv)
   SyntaxTree = NULL;
   yyin = inputFile;
   yyparse();
-
   fclose(inputFile);
 
   if (SyntaxTree == NULL)
