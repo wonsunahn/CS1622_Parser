@@ -491,9 +491,23 @@ The .png files show the difference between the generated and solution tree
 images.  For example, at below is the generated tree on the left, the solution
 tree in the center, and the diff tree on the right.
 
+<p float="left">
 <img src="imgs/ast1.png" alt="generated tree" width="250"/>
 <img src="imgs/ast2.png" alt="solution tree" width="250"/>
 <img src="imgs/diff.png" alt="diff tree" width="250"/>
+</p>
+
+Here is the color legend:
+
+* black : Nodes and edges both in the generated and solution trees.
+* red : Nodes and edges only in the generated tree.
+* blue : Nodes and edges only in the solution tree.
+* orange : Nodes in both trees but the label is different.
+
+As of now, the image diff algorithm is not very sophisticated so it may have
+trouble matching identical nodes when parts of the tree structure differ.  So
+it may show an identical node as two nodes (red and blue) when they are not
+correctly matched.  I will work on improving the algorithm and update you.
 
 ### Appendix E: Debugging using VSCode Debugger
 
