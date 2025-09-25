@@ -37,10 +37,16 @@ in the course repository for reference.
 ## Codespace Development Environment
 
 Please refer to the Project 1 CodeSpace Development Environment section to set
-up the same development environment.
+up the same development environment.  This time we need to install graphviz along
+with flex to enable parse tree image generation:
 
-Once you install flex, you should be able to build the parser binary by invoking
-the build target of the Makefile script on the terminal:
+```
+sudo apt-get update
+sudo apt-get install flex graphviz
+```
+
+Installing flex will install yacc along with it, and now you should be able to
+build the parser binary by invoking the build target of the Makefile:
 
 ```
 make build
