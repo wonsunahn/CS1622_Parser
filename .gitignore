@@ -1,6 +1,8 @@
 diffs_default/
 diffs_side_by_side/
+diffs_asts/
 outputs/
+asts/
 *.o
 lex.yy.c
 y.tab.*
