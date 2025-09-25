@@ -457,7 +457,7 @@ diffs_outputs/ and diffs_asts/ respectively.
 Here is the asts_solution/minimal.png file that shows the abstract syntax tree
 for tests/minimal.mjava, as an example: 
 
-![minimal.png](asts_solution/minimal.png)
+<img src="asts_solution/minimal.png" alt="minimal.png" width="200"/>
 
 Here is the outputs_solution/minimal.out file that shows the same abstract
 syntax tree this time in text format:
