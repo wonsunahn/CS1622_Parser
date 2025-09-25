@@ -457,7 +457,7 @@ diffs_outputs/ and diffs_asts/ respectively.
 Here is the asts_solution/minimal.png file that shows the abstract syntax tree
 for tests/minimal.mjava, as an example: 
 
-<img src="asts_solution/minimal.png" alt="minimal.png" width="200"/>
+<img src="asts_solution/minimal.png" alt="minimal.png" width="250"/>
 
 Here is the outputs_solution/minimal.out file that shows the same abstract
 syntax tree this time in text format:
@@ -473,6 +473,27 @@ R-[ProgramOp]
   +-[ClassOp]
     +-[DUMMYnode]
 ```
+
+You can see that the tree is rotated counter counterclockwise 90 degrees.  It
+was an unavoidable choice to print the tree to the console.  You may find the
+PNG image easier to view.
+
+If you find it hard to tell the difference between your tree and the solution
+tree visually, the diff files may help.  The .diff files under diffs_outputs/
+folder shows the difference in the text format trees and the .png files under
+the diffs_asts/ folder shows the difference in the image format trees.  The
+.diff files will be empty if there are no differences (and this is what the
+GradeScope autograder uses to determine your score).  If there are differences,
+it will print out line-by-line differences as shown in the Wikipedia entry:
+https://en.wikipedia.org/wiki/Diff#Default_output_format.
+
+The .png files show the difference between the generated and solution tree
+images.  For example, at below is the generated tree on the left, the solution
+tree in the center, and the diff tree on the right.
+
+<img src="imgs/ast1.png" alt="generated tree" width="250"/>
+<img src="imgs/ast2.png" alt="solution tree" width="250"/>
+<img src="imgs/diff.png" alt="diff tree" width="250"/>
 
 ### Appendix E: Debugging using VSCode Debugger
 
