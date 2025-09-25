@@ -10,7 +10,8 @@
     + [Appendix A: Data structures in proj2.h](#appendix-a-data-structures-in-proj2h)
     + [Appendix B: Helper functions in proj2.cpp](#appendix-b-helper-functions-in-proj2cpp)
     + [Appendix C: MINI-JAVA grammar specification](#appendix-c-mini-java-grammar-specification)
-  * [Debugging](#debugging)
+    + [Appendix D: Debugging by comparing Abstract Syntax Trees](#appendix-d-debugging-by-comparing-abstract-syntax-trees)
+    + [Appendix E: Debugging using VSCode Debugger](#appendix-e-debugging-using-vscode-debugger)
   * [Grading](#grading)
   * [Submission](#submission)
 
