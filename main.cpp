@@ -19,8 +19,10 @@ extern "C"
 
 /* input for yylex() */
 extern FILE *yyin;
-/* printtree output direction */
+/* printTreeText file pointer */
 extern FILE *treelst;
+/* printTreeGraphviz file pointer */
+extern FILE *treeimg;
 /* Root of the syntax tree */
 extern tree SyntaxTree;
 /* Make symbol table function */
@@ -35,18 +37,28 @@ void printUsage()
 
 int main(int argc, char **argv)
 {
-  std::string outputFileName, inputFileName;
+  std::string graphVizFileName, inputFileName;
   bool verbose = false;
   bool printLineNo = false;
   char c;
 
-  while ((c = getopt(argc, argv, "hl0")) != -1)
+  while ((c = getopt(argc, argv, "hp:")) != -1)
   {
     switch (c)
     {
     case 'h':
       printUsage();
       return 0;
+    case 'p':
+      graphVizFileName = optarg;
+      treeimg = fopen(graphVizFileName.c_str(), "w");
+      if (treeimg == NULL)
+      {
+        fprintf(stderr, "Cannot open %s for writing.\n",
+                graphVizFileName.c_str());
+        exit(1);
+      }
+      break;
     case '?':
       if (isprint(optopt))
         fprintf(stderr, "Unknown option `-%c'.\n", optopt);
@@ -65,8 +77,15 @@ int main(int argc, char **argv)
     printUsage();
     return 0;
   }
+
   inputFileName = argv[optind];
   FILE *inputFile = fopen(inputFileName.c_str(), "r");
+  if (inputFile == NULL)
+  {
+    fprintf(stderr, "Cannot open %s for reading.\n",
+            inputFileName.c_str());
+    exit(1);
+  }
 
   /* Make syntax tree */
   SyntaxTree = NULL;
@@ -81,9 +100,13 @@ int main(int argc, char **argv)
     exit(1);
   }
 
-  /* Print out syntax tree. */
+  /* Print out syntax tree to stdout. */
   treelst = stdout;
-  printtree(SyntaxTree, 0);
+  printTreeText(SyntaxTree, 0);
+
+  /* Print out syntax tree to graphviz file if requested. */
+  if (treeimg != NULL)
+    printTreeGraphviz(SyntaxTree, 0); 
 
   return 0;
 }
